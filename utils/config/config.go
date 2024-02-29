@@ -3,7 +3,8 @@ package config
 import "github.com/spf13/viper"
 
 type Configurations struct {
-	Database DatabaseConfigurations
+	Database   DatabaseConfigurations
+	PokemonAPI PokemonAPIConfigurations
 }
 
 type DatabaseConfigurations struct {
@@ -11,20 +12,26 @@ type DatabaseConfigurations struct {
 	DBUser     string
 	DBPassword string
 	DBHost     string
+	CardCount  int
+}
+
+type PokemonAPIConfigurations struct {
+	APIKey    string
+	PageCount int
 }
 
 func LoadConfig(configPath string) (Configurations, error) {
+	var config Configurations
+
 	viper.SetConfigFile(configPath)
 
 	if err := viper.ReadInConfig(); err != nil {
-		return Configurations{}, err
+		return config, err
 	}
-
-	var config Configurations
 
 	err := viper.Unmarshal(&config)
 	if err != nil {
-		return Configurations{}, err
+		return config, err
 	}
 
 	return config, nil
