@@ -1,0 +1,8 @@
+DROP TABLE IF EXISTS pokemon_cards;
+CREATE TABLE pokemon_cards (
+  id INT AUTO_INCREMENT NOT NULL,
+  name VARCHAR(255) NOT NULL,
+  value DECIMAL(10,2) NOT NULL,
+  image_url VARCHAR(255) NOT NULL,
+  PRIMARY KEY (id)
+);
