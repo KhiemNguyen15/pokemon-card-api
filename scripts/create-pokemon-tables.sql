@@ -15,7 +15,8 @@ CREATE TABLE pokemon_cards (
   rarity VARCHAR(255) NOT NULL,
   value DECIMAL(10,2) NOT NULL,
   image_url VARCHAR(255) NOT NULL,
-  card_set VARCHAR(255) NOT NULL,
+  set_name VARCHAR(255) NOT NULL,
+  set_series VARCHAR(255) NOT NULL,
   PRIMARY KEY (id),
-  FOREIGN KEY (card_set) REFERENCES card_sets(name)
+  FOREIGN KEY (set_name, set_series) REFERENCES card_sets(name)
 );
