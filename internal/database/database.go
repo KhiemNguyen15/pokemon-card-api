@@ -3,9 +3,10 @@ package database
 import (
 	"database/sql"
 
-	"core/card"
 	"github.com/go-sql-driver/mysql"
-	"utils/config"
+
+	"github.com/KhiemNguyen15/PokemonCardTrader/internal/card"
+	"github.com/KhiemNguyen15/PokemonCardTrader/internal/config"
 )
 
 func LoadDatabase(dbConfig config.DatabaseConfigurations) (*sql.DB, error) {
@@ -34,7 +35,8 @@ func GetCard(db *sql.DB, id int) (card.Card, error) {
 	var card card.Card
 
 	row := db.QueryRow(
-		"SELECT (id, name, number, rarity, value, image_url, card_set) FROM pokemon_cards WHERE id = ?",
+		"SELECT (id, name, number, rarity, value, image_url, card_set) "+
+			"FROM pokemon_cards WHERE id = ?",
 		id,
 	)
 	err := row.Scan(
@@ -55,7 +57,8 @@ func GetCard(db *sql.DB, id int) (card.Card, error) {
 
 func InsertCard(db *sql.DB, card card.Card) error {
 	_, err := db.Exec(
-		"INSERT INTO pokemon_cards (name, number, rarity, value, image_url, card_set)"+
+		"INSERT INTO pokemon_cards "+
+			"(name, number, rarity, value, image_url, set_name, set_series) "+
 			"VALUES (?, ?, ?, ?, ?, ?)",
 		card.Name,
 		card.Number,
@@ -63,6 +66,7 @@ func InsertCard(db *sql.DB, card card.Card) error {
 		card.Value,
 		card.ImageURL,
 		card.Set.Name,
+		card.Set.Series,
 	)
 	if err != nil {
 		return err
