@@ -1,8 +1,9 @@
 package main
 
 import (
-	"fmt"
+	"log"
 	"net/http"
+	"os"
 	"strconv"
 
 	"github.com/gin-gonic/gin"
@@ -12,19 +13,46 @@ import (
 	"github.com/KhiemNguyen15/PokemonCardTrader/internal/database"
 )
 
-var db *sqlx.DB
+var (
+	db *sqlx.DB
 
-func main() {
-	configPath := "./data/config.yml"
+	InfoLogger    *log.Logger
+	ErrorLogger   *log.Logger
+	WarningLogger *log.Logger
+	DebugLogger   *log.Logger
+)
 
-	config, err := config.LoadConfig(configPath)
+func init() {
+	logFilePath := "./data/logs.txt"
+
+	logFile, err := os.OpenFile(logFilePath, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0600)
 	if err != nil {
-		panic(fmt.Errorf("Error loading config file: %v\n", err))
+		log.Fatalln(err)
 	}
 
-	db, err = database.LoadDatabase(config.Database)
+	gin.DisableConsoleColor()
+	gin.DefaultWriter = logFile
+	gin.DefaultErrorWriter = logFile
+
+	InfoLogger = log.New(logFile, "INFO: ", log.Ldate|log.Ltime|log.Lshortfile)
+	ErrorLogger = log.New(logFile, "ERROR: ", log.Ldate|log.Ltime|log.Lshortfile)
+	WarningLogger = log.New(logFile, "WARNING: ", log.Ldate|log.Ltime|log.Lshortfile)
+	DebugLogger = log.New(logFile, "DEBUG: ", log.Ldate|log.Ltime|log.Lshortfile)
+}
+
+func main() {
+	InfoLogger.Println("\nProcess starting...")
+
+	configPath := "./data/config.yml"
+
+	cfg, err := config.LoadConfig(configPath)
 	if err != nil {
-		panic(fmt.Errorf("Error connecting to database: %v\n", err))
+		ErrorLogger.Fatalln("Error loading config file:", err)
+	}
+
+	db, err = database.LoadDatabase(cfg.Database)
+	if err != nil {
+		ErrorLogger.Fatalln("Error connecting to database:", err)
 	}
 
 	// Populate the databases (only do this once)
@@ -45,14 +73,14 @@ func main() {
 	router.GET("/ping", ping)
 
 	router.Run(":8080")
-
-	fmt.Println("Process ended gracefully.")
 }
 
 func getCards(c *gin.Context) {
 	cards, err := database.GetCards(db)
 	if err != nil {
-		panic(fmt.Errorf("Error retrieving cards from database: %v\n", err))
+		c.JSON(http.StatusNotFound, gin.H{"error": "cards not found"})
+		ErrorLogger.Println("Error retrieving cards from database:", err)
+		return
 	}
 
 	c.JSON(http.StatusOK, cards)
@@ -76,5 +104,5 @@ func getCardByID(c *gin.Context) {
 }
 
 func ping(c *gin.Context) {
-	c.JSON(http.StatusOK, gin.H{"error": "pong"})
+	c.JSON(http.StatusOK, gin.H{"message": "pong"})
 }
