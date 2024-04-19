@@ -5,7 +5,6 @@ import "github.com/spf13/viper"
 type Configurations struct {
 	Database   DatabaseConfigurations
 	PokemonAPI PokemonAPIConfigurations
-	DiscordAPI DiscordAPIConfigurations
 }
 
 type DatabaseConfigurations struct {
@@ -19,10 +18,6 @@ type DatabaseConfigurations struct {
 type PokemonAPIConfigurations struct {
 	APIKey    string
 	PageCount int
-}
-
-type DiscordAPIConfigurations struct {
-	APIKey string
 }
 
 func LoadConfig(configPath string) (Configurations, error) {

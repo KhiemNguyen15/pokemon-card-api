@@ -18,5 +18,5 @@ CREATE TABLE pokemon_cards (
   set_name VARCHAR(255) NOT NULL,
   set_series VARCHAR(255) NOT NULL,
   PRIMARY KEY (id),
-  FOREIGN KEY (set_name, set_series) REFERENCES card_sets(name)
+  FOREIGN KEY (set_name, set_series) REFERENCES card_sets(name, series)
 );
