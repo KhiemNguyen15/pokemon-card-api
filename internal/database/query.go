@@ -26,6 +26,17 @@ func GetCards() ([]models.Card, error) {
 	return cards, nil
 }
 
+func GetCardsByRarity(rarity string) ([]models.Card, error) {
+	cards := []models.Card{}
+
+	err := DB.Select(&cards, "SELECT * FROM pokemon_cards WHERE rarity = ?", rarity)
+	if err != nil {
+		return cards, err
+	}
+
+	return cards, nil
+}
+
 func InsertCard(card models.Card) error {
 	_, err := DB.Exec(
 		"INSERT INTO pokemon_cards "+

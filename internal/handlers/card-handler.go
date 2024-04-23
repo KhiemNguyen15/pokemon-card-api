@@ -10,6 +10,18 @@ import (
 )
 
 func GetCards(c *gin.Context) {
+	rarity := c.Query("rarity")
+	if rarity != "" {
+		cards, err := database.GetCardsByRarity(rarity)
+		if err != nil {
+			c.JSON(http.StatusNotFound, gin.H{"error": "cards not found"})
+			return
+		}
+
+		c.JSON(http.StatusOK, cards)
+		return
+	}
+
 	cards, err := database.GetCards()
 	if err != nil {
 		c.JSON(http.StatusNotFound, gin.H{"error": "cards not found"})
