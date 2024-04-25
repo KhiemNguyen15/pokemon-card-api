@@ -1,7 +1,7 @@
 package database
 
 import (
-	"github.com/KhiemNguyen15/PokemonCardTrader/internal/models"
+	"github.com/KhiemNguyen15/pokemon-card-api/internal/models"
 )
 
 func GetCard(id int) (models.Card, error) {

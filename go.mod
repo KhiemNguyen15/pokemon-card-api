@@ -1,4 +1,4 @@
-module github.com/KhiemNguyen15/PokemonCardTrader
+module github.com/KhiemNguyen15/pokemon-card-api
 
 go 1.22.0
 

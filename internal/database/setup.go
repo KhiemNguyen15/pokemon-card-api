@@ -6,8 +6,8 @@ import (
 	"io"
 	"net/http"
 
-	"github.com/KhiemNguyen15/PokemonCardTrader/internal/config"
-	"github.com/KhiemNguyen15/PokemonCardTrader/internal/models"
+	"github.com/KhiemNguyen15/pokemon-card-api/internal/config"
+	"github.com/KhiemNguyen15/pokemon-card-api/internal/models"
 )
 
 func PopulateCardDatabase(cfg config.PokemonAPIConfigurations) error {

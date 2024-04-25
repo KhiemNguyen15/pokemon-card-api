@@ -4,7 +4,7 @@ import (
 	"github.com/go-sql-driver/mysql"
 	"github.com/jmoiron/sqlx"
 
-	"github.com/KhiemNguyen15/PokemonCardTrader/internal/config"
+	"github.com/KhiemNguyen15/pokemon-card-api/internal/config"
 )
 
 var DB *sqlx.DB

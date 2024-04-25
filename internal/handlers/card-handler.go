@@ -6,7 +6,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 
-	"github.com/KhiemNguyen15/PokemonCardTrader/internal/database"
+	"github.com/KhiemNguyen15/pokemon-card-api/internal/database"
 )
 
 func GetCards(c *gin.Context) {
