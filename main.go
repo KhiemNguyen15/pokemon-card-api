@@ -4,10 +4,11 @@ import (
 	"log"
 	"os"
 
+	"github.com/gin-gonic/gin"
+
 	"github.com/KhiemNguyen15/pokemon-card-api/internal/config"
 	"github.com/KhiemNguyen15/pokemon-card-api/internal/database"
 	"github.com/KhiemNguyen15/pokemon-card-api/internal/handlers"
-	"github.com/gin-gonic/gin"
 )
 
 var (
@@ -51,11 +52,11 @@ func main() {
 	}
 
 	// Populate the databases (only do this once)
-	// if err := database.PopulateSetDatabase(config.PokemonAPI); err != nil {
+	// if err := database.PopulateSetDatabase(cfg.PokemonAPI); err != nil {
 	// 	panic(err)
 	// }
 	//
-	// if err := database.PopulateCardDatabase(config.PokemonAPI); err != nil {
+	// if err := database.PopulateCardDatabase(cfg.PokemonAPI); err != nil {
 	// 	panic(err)
 	// }
 
